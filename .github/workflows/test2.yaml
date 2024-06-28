@@ -19,20 +19,31 @@ jobs:
           TOKEN=$(echo $OIDC_TOKEN | jq -r '.value')
           echo "TOKEN=$TOKEN" >> $GITHUB_ENV
 
+      - name: Debug Environment Variables
+        run: env
+
       - name: Assume Role with OIDC Token
         id: assume_role
         run: |
           echo "Assuming role with OIDC token..."
-          CREDENTIALS=$(aws sts assume-role-with-web-identity --role-arn arn:aws:iam::766537220951:role/GithubActionsTest --role-session-name GitHubActionsSession --web-identity-token ${{ env.TOKEN }} --duration-seconds 3600 2>&1)
-          if echo "$CREDENTIALS" | jq . > /dev/null 2>&1; then
-            export AWS_ACCESS_KEY_ID=$(echo $CREDENTIALS | jq -r '.Credentials.AccessKeyId')
-            export AWS_SECRET_ACCESS_KEY=$(echo $CREDENTIALS | jq -r '.Credentials.SecretAccessKey')
-            export AWS_SESSION_TOKEN=$(echo $CREDENTIALS | jq -r '.Credentials.SessionToken')
+          set -x
+          RESPONSE=$(aws sts assume-role-with-web-identity \
+            --role-arn arn:aws:iam::766537220951:role/GithubActionsTest \
+            --role-session-name GitHubActionsSession \
+            --web-identity-token "${{ env.TOKEN }}" \
+            --duration-seconds 3600 2>&1)
+          echo "Assume Role Response: $RESPONSE"
+          CREDENTIALS=$(echo "$RESPONSE" | jq '.Credentials')
+          if [ -n "$CREDENTIALS" ] && [ "$CREDENTIALS" != "null" ]; then
+            export AWS_ACCESS_KEY_ID=$(echo "$CREDENTIALS" | jq -r '.AccessKeyId')
+            export AWS_SECRET_ACCESS_KEY=$(echo "$CREDENTIALS" | jq -r '.SecretAccessKey')
+            export AWS_SESSION_TOKEN=$(echo "$CREDENTIALS" | jq -r '.SessionToken')
             echo "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}"
           else
-            echo "Failed to assume role: $CREDENTIALS"
+            echo "Failed to assume role: $RESPONSE"
             exit 1
           fi
+          set +x
 
       - name: Pull secret from AWS Secrets Manager
         id: pull_secret
