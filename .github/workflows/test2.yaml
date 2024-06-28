@@ -19,20 +19,23 @@ jobs:
           TOKEN=$(echo $OIDC_TOKEN | jq -r '.value')
           echo "TOKEN=$TOKEN" >> $GITHUB_ENV
 
-      - name: Debug Environment Variables
+      - name: Print Environment Variables
         run: env
 
       - name: Assume Role with OIDC Token
         id: assume_role
+        env:
+          TOKEN: ${{ env.TOKEN }}
         run: |
           echo "Assuming role with OIDC token..."
           set -x
           RESPONSE=$(aws sts assume-role-with-web-identity \
             --role-arn arn:aws:iam::766537220951:role/GithubActionsTest \
             --role-session-name GitHubActionsSession \
-            --web-identity-token "${{ env.TOKEN }}" \
+            --web-identity-token "$TOKEN" \
             --duration-seconds 3600 2>&1)
           echo "Assume Role Response: $RESPONSE"
+          echo "$RESPONSE" | jq .
           CREDENTIALS=$(echo "$RESPONSE" | jq '.Credentials')
           if [ -n "$CREDENTIALS" ] && [ "$CREDENTIALS" != "null" ]; then
             export AWS_ACCESS_KEY_ID=$(echo "$CREDENTIALS" | jq -r '.AccessKeyId')
