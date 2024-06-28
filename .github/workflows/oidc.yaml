@@ -1,6 +1,6 @@
 name: Get OIDC Token
-on: 
-    workflow_dispatch: # manually trigger
+on:
+  workflow_dispatch: # manually trigger
 permissions:
   id-token: write
   contents: read
