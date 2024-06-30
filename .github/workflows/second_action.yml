@@ -5,7 +5,7 @@ jobs:
         runs-on: ubuntu-latest
         defaults:
           run:
-          # Mobile folder working directory.
+          # second_action folder working directory.
             working-directory: second_action
         steps:
           - name: Get Code
