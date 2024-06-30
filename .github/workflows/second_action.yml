@@ -1,35 +1,33 @@
 name: 2ndTestProject
 on: push
 jobs:
-    test:
-        runs-on: ubuntu-latest
-        defaults:
-          run:
-          # second_action folder working directory.
-            working-directory: second_action
-        steps:
-          - name: Get Code
-            uses: actions/checkout@v3
-          - uses: dorny/paths-filter@v3
-            id: filter
-            with:
-              filters: |
-                second_action:
-                  - 'second_action/**'
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        # second_action folder working directory.
+        working-directory: second_action
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v3
+        
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            second_action:
+              - 'second_action/**'
 
-          - name: Install NodeJS
-            if: steps.filter.outputs.second_action =='true'
-            uses: actions/setup-node@v3
-            with:
-              node-version: 18
+      - name: Install NodeJS
+        if: steps.filter.outputs.second_action == 'true'
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
-
-
-          - name: Install dependencies
-            if: steps.filter.outputs.second_action =='true'
-            run: npm ci
-          - name: Run tests
-            if: steps.filter.outputs.second_action =='true'
-            run: npm test
-
-
+      - name: Install dependencies
+        if: steps.filter.outputs.second_action == 'true'
+        run: npm ci
+        
+      - name: Run tests
+        if: steps.filter.outputs.second_action == 'true'
+        run: npm test
