@@ -9,7 +9,6 @@ jobs:
         working-directory: second_action
     steps:
       - name: Get Code
-        if: steps.filter.outputs.second_action == 'true'
         uses: actions/checkout@v3
         
       - uses: dorny/paths-filter@v3
