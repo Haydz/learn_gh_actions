@@ -18,5 +18,12 @@ jobs:
       - name: tfsec
         uses: aquasecurity/tfsec-action@v1.0.3
         with: 
-            soft_fail: true 
+            working_directory: terraform
+            soft_fail: true
+            sarif_file: tfsectest.sarif
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: tfsec.sarif
+            
 
