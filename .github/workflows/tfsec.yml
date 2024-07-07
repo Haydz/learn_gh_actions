@@ -28,6 +28,16 @@ jobs:
             soft_fail: true
             format: sarif
             sarif_file: tfsectest.sarif
+
+      - name: List directory contents
+        run: |
+            echo "Current directory:"
+            pwd
+            echo "\nContents of current directory (ls):"
+            ls -R
+            echo "\nDirectory structure (tree):"
+            sudo apt-get install tree -y
+            tree
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v3
         with:
