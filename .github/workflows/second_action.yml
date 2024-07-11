@@ -98,6 +98,9 @@ jobs:
           echo $! > ./app_pid
           sleep 5
 
+      - name: Cool-down period - Avoid rate limiting
+        run: sleep 60
+
       - name: ZAP Scan
         uses: zaproxy/action-baseline@v0.12.0
         with:
