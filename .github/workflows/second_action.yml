@@ -6,7 +6,7 @@ jobs:
     defaults:
       run:
         # second_action folder working directory.
-        working-directory: terraform
+        working-directory: second_action
     steps:
       - name: Get Code
         uses: actions/checkout@v4.1.7
