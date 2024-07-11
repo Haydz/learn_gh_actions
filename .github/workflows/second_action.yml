@@ -34,6 +34,10 @@ jobs:
   deploy:
     needs: test
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        # second_action folder working directory.
+        working-directory: second_action
     
     steps:
         - name: Get Code
@@ -62,6 +66,10 @@ jobs:
           run: echo "Deploying..."
   build_and_scan:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        # second_action folder working directory.
+        working-directory: second_action
     steps:
       - name: Get Code
         uses: actions/checkout@v4.1.7
