@@ -105,6 +105,8 @@ jobs:
         uses: zaproxy/action-baseline@v0.12.0
         with:
           target: 'http://localhost:4173'  # Vite preview default port
+          rules_file_name: 'zap-scan-rules.conf'
+          cmd_options: '-c zap-scan-rules.conf'
 
       - name: Stop preview server
         if: always()
