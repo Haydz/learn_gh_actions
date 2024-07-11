@@ -26,7 +26,7 @@ jobs:
 
       - name: Install dependencies
         if: steps.filter.outputs.second_action == 'true'
-        run: npm install
+        run: npm ci
         
       - name: Run tests
         if: steps.filter.outputs.second_action == 'true'
@@ -34,9 +34,18 @@ jobs:
   deploy:
     needs: test
     runs-on: ubuntu-latest
+    
     steps:
         - name: Get Code
           uses: actions/checkout@v4.1.7
+
+        - uses: dorny/paths-filter@v3
+          id: filter
+          with:
+            filters: |
+              second_action:
+                - 'second_action/**'
+          
         - name: Install NodeJS
           if: steps.filter.outputs.second_action == 'true'
           uses: actions/setup-node@v4.0.2
@@ -54,7 +63,15 @@ jobs:
   build_and_scan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.7
+      - name: Get Code
+        uses: actions/checkout@v4.1.7
+
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            second_action:
+              - 'second_action/**'cx
       
       - name: Setup Node.js
         uses: actions/setup-node@v4.0.2
@@ -62,7 +79,7 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build Project
         run: npm run build
