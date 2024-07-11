@@ -26,7 +26,7 @@ jobs:
 
       - name: Install dependencies
         if: steps.filter.outputs.second_action == 'true'
-        run: npm ci
+        run: npm install
         
       - name: Run tests
         if: steps.filter.outputs.second_action == 'true'
