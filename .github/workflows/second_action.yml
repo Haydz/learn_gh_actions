@@ -114,7 +114,7 @@ jobs:
           echo "Current working directory:"
           pwd
           echo "Directory structure:"
-          ls
+          ls -lh
 
       
       # - name: Print working directory and tree structure
@@ -129,11 +129,12 @@ jobs:
         with:
           target: 'http://localhost:4173'  # Vite preview default port
           rules_file_name: '.zap/rules.tsv'
-          cmd_options: '-c config.conf'
+          cmd_options: '-a'
+          # cmd_options: '-c config.conf'
 
-      # - name: Stop preview server
-      #   if: always()
-      #   run: kill $(cat ./app_pid)
+      - name: Stop preview server
+        if: always()
+        run: kill $(cat ./app_pid)
 
       # - name: Upload ZAP Scan Report
       #   uses: actions/upload-artifact@v2
