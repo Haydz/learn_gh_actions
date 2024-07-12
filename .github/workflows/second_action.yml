@@ -109,10 +109,16 @@ jobs:
       # - name: Cool-down period - Avoid rate limiting
       #   run: sleep 60
 
-      # - name: Copy ZAP configuration file
-      #   run: |
-      #     mkdir -p zap
-      #     cp zap-scan-rules.conf zap/  
+      - name: Copy ZAP configuration file
+        run: |
+          mkdir -p zap
+          cp zap-scan-rules.conf zap/
+      - name: Print working directory and tree structure
+        run: |
+          echo "Current working directory:"
+          pwd
+          echo "Directory structure:"
+          ls
       
       # - name: Print working directory and tree structure
       #   run: |
