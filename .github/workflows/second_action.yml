@@ -109,10 +109,6 @@ jobs:
       # - name: Cool-down period - Avoid rate limiting
       #   run: sleep 60
 
-      - name: Copy ZAP configuration file
-        run: |
-          mkdir -p zap
-          cp zap-scan-rules.conf zap/
       - name: Print working directory and tree structure
         run: |
           echo "Current working directory:"
@@ -128,12 +124,12 @@ jobs:
       #     echo "Directory structure:"
       #     tree -L 3  # Shows directory structure up to 3 levels deep
 
-      # - name: ZAP Scan
-      #   uses: zaproxy/action-baseline@v0.12.0
-      #   with:
-      #     target: 'http://localhost:4173'  # Vite preview default port
-      #     rules_file_name: 'zap/zap-scan-rules.conf'
-      #     cmd_options: '-c /zap/wrk/zap/zap-scan-rules.conf'
+      - name: ZAP Scan
+        uses: zaproxy/action-baseline@v0.12.0
+        with:
+          target: 'http://localhost:4173'  # Vite preview default port
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-c config.conf'
 
       # - name: Stop preview server
       #   if: always()
