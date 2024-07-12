@@ -119,7 +119,7 @@ jobs:
           pwd
           echo "Directory structure:"
           ls
-          ls /zap
+          ls zap/
       
       # - name: Print working directory and tree structure
       #   run: |
