@@ -106,10 +106,12 @@ jobs:
           mkdir -p zap
           cp zap-scan-rules.conf zap/  
       
-      - name: List directory contents
+      - name: Print working directory and tree structure
         run: |
+          echo "Current working directory:"
           pwd
-          ls -R
+          echo "Directory structure:"
+          tree -L 3  # Shows directory structure up to 3 levels deep
 
       - name: ZAP Scan
         uses: zaproxy/action-baseline@v0.12.0
