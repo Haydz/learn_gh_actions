@@ -130,7 +130,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           target: 'http://localhost:4173'  # Vite preview default port
           rules_file_name: '.zap/rules.tsv'
-          cmd_options: '-a'
+          cmd_options: '-z "-config rules.tsv=.zap/rules.tsv"'
+
           # cmd_options: '-c config.conf'
 
       - name: Stop preview server
