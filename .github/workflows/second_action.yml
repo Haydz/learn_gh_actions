@@ -1,5 +1,8 @@
 name: 2ndTestProject
 on: [push, workflow_dispatch]
+permissions:
+  contents: read
+  issues: write
 jobs:
   test:
     runs-on: ubuntu-latest
